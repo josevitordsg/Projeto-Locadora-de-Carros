@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from rest_framework import viewsets, permissions
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from usuarios.models import Usuario
+from usuarios.serializers import UsuarioSerializer
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from django.urls import path
-
-urlpatterns = [
-    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-]
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+    permission_classes = [permissions.IsAuthenticated]
